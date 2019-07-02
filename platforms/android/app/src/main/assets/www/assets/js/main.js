@@ -14,6 +14,10 @@ var app = {
             e.preventDefault();
             _this.clearLogs();
         });
+        $('.ipupdate-btn').click(function(e) {
+            e.preventDefault();
+            _this.retrieve();
+        });
     },
 
     initBackgroundMode: function() {
@@ -38,14 +42,9 @@ var app = {
     },
 
     log: function(message) {
-        var msg = '['+moment().format('d/m/Y HH:mm:ss').toString()+'] ' + message;
-        var logString = localStorage.getItem('appLogs');
-        var _log;
-        if(logString == null || logString == "") {
-            _log = [];
-        }else{
-            _log = JSON.parse(logString);
-        }
+        var msg         = '['+moment().format('d/m/Y HH:mm:ss').toString()+'] ' + message;
+        var logString   = localStorage.getItem('appLogs');
+        var _log        = ((logString == null || logString == "") ? [] : JSON.parse(logString));
         _log.push(msg);
         localStorage.setItem('appLogs', JSON.stringify(_log));
         this.renderLog();
@@ -55,6 +54,19 @@ var app = {
         localStorage.setItem('appLogs', "[]");
         this.log("Reportes y seguimiento vaciados.");
         this.renderLog();
+    },
+
+    retrieve: function() {
+        var _this = this;
+        var url = $('input[name="ip"]').val();
+        this.log("Obteniendo contactos...");
+        $.ajax({
+            url: url,
+            type: "GET"
+        }).done(function(res) {
+            _this.log(res.length + " contactos obtenidos.");
+            console.log(res);
+        });
     }
 };
 app.init();

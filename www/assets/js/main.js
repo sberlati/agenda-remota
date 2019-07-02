@@ -14,6 +14,10 @@ var app = {
             e.preventDefault();
             _this.clearLogs();
         });
+        $('.ipupdate-btn').click(function(e) {
+            e.preventDefault();
+            _this.retrieve();
+        });
     },
 
     initBackgroundMode: function() {
@@ -50,6 +54,19 @@ var app = {
         localStorage.setItem('appLogs', "[]");
         this.log("Reportes y seguimiento vaciados.");
         this.renderLog();
+    },
+
+    retrieve: function() {
+        var _this = this;
+        var url = $('input[name="ip"]').val();
+        this.log("Obteniendo contactos...");
+        $.ajax({
+            url: url,
+            type: "GET"
+        }).done(function(res) {
+            _this.log(res.length + " contactos obtenidos.");
+            console.log(res);
+        });
     }
 };
 app.init();
