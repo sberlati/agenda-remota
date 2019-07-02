@@ -1,0 +1,62 @@
+.html,body {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+.main-title {
+    text-align: right;
+    font-weight: 300;
+    color: #222;
+}
+
+.form-control {
+    color: #3b3b3b;
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 2px;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.12);
+}
+
+.ipconfig-container {
+    margin: 30px auto;
+}
+
+label {
+    font-weight: 300;
+}
+
+.ipupdate-btn,
+.ipupdate-btn:hover,
+.ipupdate-btn:active,
+.ipupdate-btn:focus {
+    background-color: #596275 !important;
+    border-color: #303952 !important;
+    border-radius: 2px !important;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.12) !important;
+    font-weight: 300;
+    height: 50px;
+}
+
+.ipinput {
+    font-size: 1.6rem;
+    font-weight: 300;
+    height: 50px;
+    margin-bottom: 15px;
+}
+
+.log-container h5 {
+    font-weight: 300;
+    padding-top: 15px;
+}
+
+.log-container .log-entries .entry {
+    font-weight: 300;
+    font-size: 12px;
+}

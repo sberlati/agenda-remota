@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.sberlati.arem" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>agenda-remota</name>
+    <description>
+        Permite agregar contactos de forma remota al teléfono (Android).
+    </description>
+    <author email="sberlati@gmail.com" href="http://phonegap.com">
+        Sebastián Berlati
+    </author>
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <plugin name="cordova-plugin-contacts" />
+    <access origin="*" />
+    <allow-navigation href="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+</widget>

@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "cordova-plugin-whitelist": "1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-contacts": {},
+      "cordova-plugin-background-mode": {}
+    }
+  },
+  "dependencies": {
+    "cordova-android": "^8.0.0",
+    "cordova-plugin-background-mode": "git+https://github.com/sercatven/cordova-plugin-background-mode.git",
+    "cordova-plugin-device": "^2.0.3"
+  }
+}
