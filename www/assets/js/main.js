@@ -65,7 +65,18 @@ var app = {
             type: "GET"
         }).done(function(res) {
             _this.log(res.length + " contactos obtenidos.");
-            console.log(res);
+            _this.log("Agendando...");
+            for(var i=0;i<res.length;i++) {
+                var cObject = res[i];
+                _this.log("Agendado: " + cObject.nombre + " " + cObject.apellido);
+                var contacto = navigator.contacts.create();
+                contacto.displayName = cObject.nombre + " " + cObject.apellido;
+                contacto.nickname = cObject.nombre + " " + cObject.apellido;
+                contacto.phoneNumbers = [new ContactField('mobile', cObject.telefono, true)];
+                contacto.save(function(result) {
+                    _this.log("Generado y guardado.");
+                });
+            }
         });
     }
 };
