@@ -59,25 +59,61 @@ var app = {
     retrieve: function() {
         var _this = this;
         var url = $('input[name="ip"]').val();
+        $('.ipupdate-btn').attr('disabled','disabled');
         this.log("Obteniendo contactos...");
         $.ajax({
             url: url,
             type: "GET"
         }).done(function(res) {
             _this.log(res.length + " contactos obtenidos.");
-            _this.log("Agendando...");
             for(var i=0;i<res.length;i++) {
                 var cObject = res[i];
-                _this.log("Agendado: " + cObject.nombre + " " + cObject.apellido);
+                var posString = "["+(i+1)+"/"+res.length+"]";
+                // Valido que no esté vacío
+                if(cObject.nombre == "" || cObject.telefono == "") {
+                    _this.log(posString+"[E:0] SKIPPED: Faltan campos para continuar. (nombre='"+cObject.nombre+"';telefono='"+cObject.telefono+"')");
+                    continue;
+                }
+                // Guardo el teléfono removiendo los +54, guiones, puntos, etc
+                var telefono = cObject.telefono.replace(" ","").replace("+549","").replace("+54","").replace("-","").replace(".","");
+                // Validaciones previas
+                if(validations.todosIgual(telefono) === true) {
+                    _this.log(posString+"[E:1] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
+                    continue;
+                }else if(validations.esNumero(telefono) === false) {
+                    // El campo teléfono no tiene un
+                    _this.log(posString+"[E:2] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
+                    continue;
+                }else if(telefono.substring(0,1) == "0") {
+                    // El teléfono empezó con "011" en vez de "11".
+                    _this.log(posString+"[E:3] INFO: Re-escribiendo "+telefono+" a "+telefono.substring(1,telefono.length));
+                    telefono = telefono.substring(1,telefono.length);
+                }
+                // Re-escribo poniendo el +54 9
+                telefono = "+549"+telefono;
+
+                // Genero el contacto con nombre, apellido y teléfono
                 var contacto = navigator.contacts.create();
-                contacto.displayName = cObject.nombre + " " + cObject.apellido;
-                contacto.nickname = cObject.nombre + " " + cObject.apellido;
-                contacto.phoneNumbers = [new ContactField('mobile', cObject.telefono, true)];
+                contacto.displayName    = cObject.nombre;
+                contacto.nickname       = cObject.nombre;
+                contacto.phoneNumbers   = [new ContactField('mobile', telefono, true)];
+                // Guardo el contacto
                 contacto.save(function(result) {
-                    _this.log("Generado y guardado.");
+                    _this.log(posString+"Agendado: " + cObject.nombre + " " + telefono);
                 });
             }
+            // Vuelvo a activar el botón
+            $('.ipupdate-btn').removeAttr('disabled');
         });
+    },
+};
+
+var validations = {
+    todosIgual: function(input) {
+        return /^(.)\1+$/.test(input);
+    },
+    esNumero: function(input) {
+        return /^\d+$/.test(input);
     }
 };
 app.init();
