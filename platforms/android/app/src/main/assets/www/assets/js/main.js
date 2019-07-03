@@ -64,7 +64,7 @@ var app = {
         $.ajax({
             url: url,
             type: "GET"
-        }).done(function(res) {
+        }).done(async function(res) {
             _this.log(res.length + " contactos obtenidos.");
             for(var i=0;i<res.length;i++) {
                 var cObject = res[i];
@@ -91,6 +91,26 @@ var app = {
                 }
                 // Re-escribo poniendo el +54 9
                 telefono = "+549"+telefono;
+
+                // Busco entradas anteriores con ese teléfono
+                var searchOptions = new ContactFindOptions();
+                searchOptions.filter = telefono;
+                searchOptions.hasPhoneNumber = true;
+                var _continue = true;
+                await navigator.contacts.find([navigator.contacts.fieldType.phoneNumbers], function(r) {
+                    if(r.length <= 0) {
+                        _continue = true;
+                    }else{
+                        _continue = false;
+                    }
+                }, function(err) {
+                    _continue = true;
+                },searchOptions);
+                
+                if(!_continue) {
+                    _this.log(posString+"[E:4] ERROR: número ya agendado.");
+                    continue;
+                }
 
                 // Genero el contacto con nombre, apellido y teléfono
                 var contacto = navigator.contacts.create();
