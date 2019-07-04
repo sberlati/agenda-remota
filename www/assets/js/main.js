@@ -91,7 +91,6 @@ var app = {
                 }
                 // Re-escribo poniendo el +54 9
                 telefono = "+549"+telefono;
-
                 // Busco entradas anteriores con ese teléfono
                 var searchOptions = new ContactFindOptions();
                 searchOptions.filter = telefono;
@@ -108,7 +107,7 @@ var app = {
                 },searchOptions);
 
                 if(!_continue) {
-                    _this.log(posString+"[E:4] ERROR: número ya agendado.");
+                    _this.log(posString+"[E:4] ERROR: número ya agendado.")
                     continue;
                 }
 
