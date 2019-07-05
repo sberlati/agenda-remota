@@ -31,6 +31,10 @@
             {
               "xml": "<preference name=\"KeepRunning\" value=\"true\" />",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"WebSocketServer\"><param name=\"android-package\" value=\"net.becvert.cordova.WebSocketServerPlugin\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -68,6 +72,16 @@
               "xml": "<service android:name=\"de.appplant.cordova.plugin.background.ForegroundService\" />",
               "count": 1
             }
+          ],
+          "/manifest": [
+            {
+              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+              "count": 1
+            }
           ]
         }
       }
@@ -84,6 +98,12 @@
       "PACKAGE_NAME": "com.sberlati.arem"
     },
     "cordova-plugin-background-mode": {
+      "PACKAGE_NAME": "com.sberlati.arem"
+    },
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.sberlati.arem"
+    },
+    "cordova-plugin-websocket-server": {
       "PACKAGE_NAME": "com.sberlati.arem"
     }
   },
@@ -182,12 +202,22 @@
         "cordova.plugins.backgroundMode",
         "plugin.backgroundMode"
       ]
+    },
+    {
+      "id": "cordova-plugin-websocket-server.WebSocketServer",
+      "file": "plugins/cordova-plugin-websocket-server/www/wsserver.js",
+      "pluginId": "cordova-plugin-websocket-server",
+      "clobbers": [
+        "cordova.plugins.wsserver"
+      ]
     }
   ],
   "plugin_metadata": {
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-plugin-contacts": "3.0.1",
     "cordova-plugin-device": "2.0.3",
-    "cordova-plugin-background-mode": "0.7.2"
+    "cordova-plugin-background-mode": "0.7.2",
+    "cordova-plugin-add-swift-support": "2.0.1",
+    "cordova-plugin-websocket-server": "1.5.0"
   }
 }

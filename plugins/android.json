@@ -15,10 +15,16 @@
     },
     "cordova-plugin-background-mode": {
       "PACKAGE_NAME": "com.sberlati.arem"
+    },
+    "cordova-plugin-websocket-server": {
+      "PACKAGE_NAME": "com.sberlati.arem"
     }
   },
   "dependent_plugins": {
     "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.sberlati.arem"
+    },
+    "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.sberlati.arem"
     }
   }

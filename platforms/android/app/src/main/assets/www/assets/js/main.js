@@ -1,14 +1,16 @@
 var app = {
     init: function() {
         this.asignoEventos();
-        this.renderLog();
+        logger.renderLog();
     },
 
     asignoEventos: function() {
         var _this = this;
-        this.log("App. iniciada");
+        logger.log("App. iniciada");
         document.addEventListener('deviceready', function() {
            _this.initBackgroundMode();
+           // Inicio el websocket server
+           ws.init();
         }, false);
         $('.log-clear').click(function(e) {
             e.preventDefault();
@@ -21,7 +23,7 @@ var app = {
     },
 
     initBackgroundMode: function() {
-        this.log("BackgroundMode iniciado");
+        logger.log("BackgroundMode iniciado");
         cordova.plugins.backgroundMode.setDefaults({
             title: 'Agenda remota',
             text: 'Funcionando en segundo plano...'
@@ -29,6 +31,93 @@ var app = {
         cordova.plugins.backgroundMode.setEnabled(true);
     },
 
+    retrieve: function() {
+        var _this = this;
+        var url = $('input[name="ip"]').val();
+        $('.ipupdate-btn').attr('disabled','disabled');
+        logger.log("Obteniendo contactos...");
+        $.ajax({
+            url: url,
+            type: "GET"
+        }).done(async function(res) {
+            logger.log(res.length + " contactos obtenidos.");
+            for(var i=0;i<res.length;i++) {
+                var cObject = res[i];
+                var posString = "["+(i+1)+"/"+res.length+"]";
+                // Valido que no esté vacío
+                if(cObject.nombre == "" || cObject.telefono == "") {
+                    logger.log(posString+"[E:0] SKIPPED: Faltan campos para continuar. (nombre='"+cObject.nombre+"';telefono='"+cObject.telefono+"')");
+                    continue;
+                }
+                // Guardo el teléfono removiendo los +54, guiones, puntos, etc
+                var telefono = cObject.telefono.replace(" ","").replace("+549","").replace("+54","").replace("-","").replace(".","");
+                // Validaciones previas
+                if(validations.todosIgual(telefono) === true) {
+                    logger.log(posString+"[E:1] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
+                    continue;
+                }else if(validations.esNumero(telefono) === false) {
+                    // El campo teléfono no tiene un
+                    logger.log(posString+"[E:2] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
+                    continue;
+                }else if(telefono.substring(0,1) == "0") {
+                    // El teléfono empezó con "011" en vez de "11".
+                    logger.log(posString+"[E:3] INFO: Re-escribiendo "+telefono+" a "+telefono.substring(1,telefono.length));
+                    telefono = telefono.substring(1,telefono.length);
+                }
+                // Re-escribo poniendo el +54 9
+                telefono = "+549"+telefono;
+                // Busco entradas anteriores con ese teléfono
+                var searchOptions = new ContactFindOptions();
+                searchOptions.filter = telefono;
+                searchOptions.hasPhoneNumber = true;
+                var _continue = true;
+                await navigator.contacts.find([navigator.contacts.fieldType.phoneNumbers], async function(r) {
+                    if(r.length <= 0) {
+                        _continue = true;
+                    }else{
+                        _continue = false;
+                    }
+                }, async function(err) {
+                    _continue = true;
+                },searchOptions);
+
+                if(!_continue) {
+                    logger.log(posString+"[E:4] ERROR: número ya agendado.")
+                    continue;
+                }
+
+                // Genero el contacto con nombre, apellido y teléfono
+                var contacto = navigator.contacts.create();
+                contacto.displayName    = cObject.nombre;
+                contacto.nickname       = cObject.nombre;
+                contacto.phoneNumbers   = [new ContactField('mobile', telefono, true)];
+                // Guardo el contacto
+                contacto.save(function(result) {
+                    logger.log(posString+"Agendado: " + cObject.nombre + " " + telefono);
+                });
+            }
+            // Vuelvo a activar el botón
+            $('.ipupdate-btn').removeAttr('disabled');
+        });
+    },
+};
+
+/*******************************
+ * Validaciones de inputs.
+ *******************************/
+var validations = {
+    todosIgual: function(input) {
+        return /^(.)\1+$/.test(input);
+    },
+    esNumero: function(input) {
+        return /^\d+$/.test(input);
+    }
+};
+
+/*******************************
+ * Log de eventos de la app.
+ *******************************/
+var logger = {
     retrieveLog: function() {
         return JSON.parse(localStorage.getItem('appLogs'));
     },
@@ -42,98 +131,61 @@ var app = {
     },
 
     log: function(message) {
+        // Formateo el mensaje y lo agrego al localStorage
         var msg         = '['+moment().format('d/m/Y HH:mm:ss').toString()+'] ' + message;
         var logString   = localStorage.getItem('appLogs');
         var _log        = ((logString == null || logString == "") ? [] : JSON.parse(logString));
         _log.push(msg);
         localStorage.setItem('appLogs', JSON.stringify(_log));
+        // Recargo el logger en la UI.
         this.renderLog();
+        // Loggeo en la consola también.
+        console.log(msg);
     },
 
     clearLogs: function() {
         localStorage.setItem('appLogs', "[]");
         this.log("Reportes y seguimiento vaciados.");
         this.renderLog();
-    },
-
-    retrieve: function() {
-        var _this = this;
-        var url = $('input[name="ip"]').val();
-        $('.ipupdate-btn').attr('disabled','disabled');
-        this.log("Obteniendo contactos...");
-        $.ajax({
-            url: url,
-            type: "GET"
-        }).done(async function(res) {
-            _this.log(res.length + " contactos obtenidos.");
-            for(var i=0;i<res.length;i++) {
-                var cObject = res[i];
-                var posString = "["+(i+1)+"/"+res.length+"]";
-                // Valido que no esté vacío
-                if(cObject.nombre == "" || cObject.telefono == "") {
-                    _this.log(posString+"[E:0] SKIPPED: Faltan campos para continuar. (nombre='"+cObject.nombre+"';telefono='"+cObject.telefono+"')");
-                    continue;
-                }
-                // Guardo el teléfono removiendo los +54, guiones, puntos, etc
-                var telefono = cObject.telefono.replace(" ","").replace("+549","").replace("+54","").replace("-","").replace(".","");
-                // Validaciones previas
-                if(validations.todosIgual(telefono) === true) {
-                    _this.log(posString+"[E:1] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
-                    continue;
-                }else if(validations.esNumero(telefono) === false) {
-                    // El campo teléfono no tiene un
-                    _this.log(posString+"[E:2] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
-                    continue;
-                }else if(telefono.substring(0,1) == "0") {
-                    // El teléfono empezó con "011" en vez de "11".
-                    _this.log(posString+"[E:3] INFO: Re-escribiendo "+telefono+" a "+telefono.substring(1,telefono.length));
-                    telefono = telefono.substring(1,telefono.length);
-                }
-                // Re-escribo poniendo el +54 9
-                telefono = "+549"+telefono;
-
-                // Busco entradas anteriores con ese teléfono
-                var searchOptions = new ContactFindOptions();
-                searchOptions.filter = telefono;
-                searchOptions.hasPhoneNumber = true;
-                var _continue = true;
-                await navigator.contacts.find([navigator.contacts.fieldType.phoneNumbers], function(r) {
-                    if(r.length <= 0) {
-                        _continue = true;
-                    }else{
-                        _continue = false;
-                    }
-                }, function(err) {
-                    _continue = true;
-                },searchOptions);
-                
-                if(!_continue) {
-                    _this.log(posString+"[E:4] ERROR: número ya agendado.");
-                    continue;
-                }
-
-                // Genero el contacto con nombre, apellido y teléfono
-                var contacto = navigator.contacts.create();
-                contacto.displayName    = cObject.nombre;
-                contacto.nickname       = cObject.nombre;
-                contacto.phoneNumbers   = [new ContactField('mobile', telefono, true)];
-                // Guardo el contacto
-                contacto.save(function(result) {
-                    _this.log(posString+"Agendado: " + cObject.nombre + " " + telefono);
-                });
-            }
-            // Vuelvo a activar el botón
-            $('.ipupdate-btn').removeAttr('disabled');
-        });
-    },
-};
-
-var validations = {
-    todosIgual: function(input) {
-        return /^(.)\1+$/.test(input);
-    },
-    esNumero: function(input) {
-        return /^\d+$/.test(input);
     }
 };
+
+/*******************************
+ * Websocket
+ *******************************/
+var ws = {
+    port: 4000,
+    server: null,
+    init: function() {
+        if(typeof cordova.plugins.wsserver !== 'undefined') {
+            this.server = cordova.plugins.wsserver;
+            logger.log("Websocket encontrado, iniciando servidor.");
+            this.startServer();
+            return true;
+        }else{
+            logger.log("No se pudo iniciar websocket. Falta dependencia.");
+            return false;
+        }
+    },
+
+    startServer: function() {
+        var _this = this;
+        this.server.start(this.port, {
+            'onFailure': function(addr, port, reason) {
+                logger.log("Servidor detenido. Razón: " + reason);
+            },
+            'onOpen': function(conn) {
+                logger.log("Conexión entrante desde "+conn.remoteAddr);
+            },
+            'onClose': function(conn, code, reason, wasClean) {
+                logger.log("Conexión perdida con "+conn.remoteAddr);
+            }
+        },function onStart(addr, port){
+            logger.log("Servidor iniciado en "+addr+":"+port);
+        },function onDidNotStart(reason){
+            logger.log(reason);
+        });
+    }
+};
+
 app.init();

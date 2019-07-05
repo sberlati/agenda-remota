@@ -6,13 +6,16 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "cordova-plugin-contacts": {},
-      "cordova-plugin-background-mode": {}
+      "cordova-plugin-background-mode": {},
+      "cordova-plugin-websocket-server": {}
     }
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
     "cordova-android": "^8.0.0",
+    "cordova-plugin-add-swift-support": "^2.0.1",
     "cordova-plugin-background-mode": "git+https://github.com/sercatven/cordova-plugin-background-mode.git",
-    "cordova-plugin-device": "^2.0.3"
+    "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-websocket-server": "^1.5.0"
   }
 }

@@ -16,6 +16,9 @@
     <feature name="BackgroundModeExt">
         <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundModeExt" />
     </feature>
+    <feature name="WebSocketServer">
+        <param name="android-package" value="net.becvert.cordova.WebSocketServerPlugin" />
+    </feature>
     <name>agenda-remota</name>
     <description>
         Permite agregar contactos de forma remota al teléfono (Android).

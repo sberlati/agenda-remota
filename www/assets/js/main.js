@@ -1,14 +1,16 @@
 var app = {
     init: function() {
         this.asignoEventos();
-        this.renderLog();
+        logger.renderLog();
     },
 
     asignoEventos: function() {
         var _this = this;
-        this.log("App. iniciada");
+        logger.log("App. iniciada");
         document.addEventListener('deviceready', function() {
            _this.initBackgroundMode();
+           // Inicio el websocket server
+           ws.init();
         }, false);
         $('.log-clear').click(function(e) {
             e.preventDefault();
@@ -21,7 +23,7 @@ var app = {
     },
 
     initBackgroundMode: function() {
-        this.log("BackgroundMode iniciado");
+        logger.log("BackgroundMode iniciado");
         cordova.plugins.backgroundMode.setDefaults({
             title: 'Agenda remota',
             text: 'Funcionando en segundo plano...'
@@ -29,64 +31,37 @@ var app = {
         cordova.plugins.backgroundMode.setEnabled(true);
     },
 
-    retrieveLog: function() {
-        return JSON.parse(localStorage.getItem('appLogs'));
-    },
-
-    renderLog: function() {
-        $('.log-entries').empty();
-        var log = this.retrieveLog();
-        for(var i=0;i<log.length;i++) {
-            $('.log-entries').prepend('<p class="entry">'+log[i]+'</p>');
-        }
-    },
-
-    log: function(message) {
-        var msg         = '['+moment().format('d/m/Y HH:mm:ss').toString()+'] ' + message;
-        var logString   = localStorage.getItem('appLogs');
-        var _log        = ((logString == null || logString == "") ? [] : JSON.parse(logString));
-        _log.push(msg);
-        localStorage.setItem('appLogs', JSON.stringify(_log));
-        this.renderLog();
-    },
-
-    clearLogs: function() {
-        localStorage.setItem('appLogs', "[]");
-        this.log("Reportes y seguimiento vaciados.");
-        this.renderLog();
-    },
-
     retrieve: function() {
         var _this = this;
         var url = $('input[name="ip"]').val();
         $('.ipupdate-btn').attr('disabled','disabled');
-        this.log("Obteniendo contactos...");
+        logger.log("Obteniendo contactos...");
         $.ajax({
             url: url,
             type: "GET"
         }).done(async function(res) {
-            _this.log(res.length + " contactos obtenidos.");
+            logger.log(res.length + " contactos obtenidos.");
             for(var i=0;i<res.length;i++) {
                 var cObject = res[i];
                 var posString = "["+(i+1)+"/"+res.length+"]";
                 // Valido que no esté vacío
                 if(cObject.nombre == "" || cObject.telefono == "") {
-                    _this.log(posString+"[E:0] SKIPPED: Faltan campos para continuar. (nombre='"+cObject.nombre+"';telefono='"+cObject.telefono+"')");
+                    logger.log(posString+"[E:0] SKIPPED: Faltan campos para continuar. (nombre='"+cObject.nombre+"';telefono='"+cObject.telefono+"')");
                     continue;
                 }
                 // Guardo el teléfono removiendo los +54, guiones, puntos, etc
                 var telefono = cObject.telefono.replace(" ","").replace("+549","").replace("+54","").replace("-","").replace(".","");
                 // Validaciones previas
                 if(validations.todosIgual(telefono) === true) {
-                    _this.log(posString+"[E:1] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
+                    logger.log(posString+"[E:1] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
                     continue;
                 }else if(validations.esNumero(telefono) === false) {
                     // El campo teléfono no tiene un
-                    _this.log(posString+"[E:2] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
+                    logger.log(posString+"[E:2] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
                     continue;
                 }else if(telefono.substring(0,1) == "0") {
                     // El teléfono empezó con "011" en vez de "11".
-                    _this.log(posString+"[E:3] INFO: Re-escribiendo "+telefono+" a "+telefono.substring(1,telefono.length));
+                    logger.log(posString+"[E:3] INFO: Re-escribiendo "+telefono+" a "+telefono.substring(1,telefono.length));
                     telefono = telefono.substring(1,telefono.length);
                 }
                 // Re-escribo poniendo el +54 9
@@ -107,7 +82,7 @@ var app = {
                 },searchOptions);
 
                 if(!_continue) {
-                    _this.log(posString+"[E:4] ERROR: número ya agendado.")
+                    logger.log(posString+"[E:4] ERROR: número ya agendado.")
                     continue;
                 }
 
@@ -118,7 +93,7 @@ var app = {
                 contacto.phoneNumbers   = [new ContactField('mobile', telefono, true)];
                 // Guardo el contacto
                 contacto.save(function(result) {
-                    _this.log(posString+"Agendado: " + cObject.nombre + " " + telefono);
+                    logger.log(posString+"Agendado: " + cObject.nombre + " " + telefono);
                 });
             }
             // Vuelvo a activar el botón
@@ -127,6 +102,9 @@ var app = {
     },
 };
 
+/*******************************
+ * Validaciones de inputs.
+ *******************************/
 var validations = {
     todosIgual: function(input) {
         return /^(.)\1+$/.test(input);
@@ -135,4 +113,87 @@ var validations = {
         return /^\d+$/.test(input);
     }
 };
+
+/*******************************
+ * Log de eventos de la app.
+ *******************************/
+var logger = {
+    retrieveLog: function() {
+        return JSON.parse(localStorage.getItem('appLogs'));
+    },
+
+    renderLog: function() {
+        $('.log-entries').empty();
+        var log = this.retrieveLog();
+        for(var i=0;i<log.length;i++) {
+            $('.log-entries').prepend('<p class="entry">'+log[i]+'</p>');
+        }
+    },
+
+    log: function(message) {
+        // Formateo el mensaje y lo agrego al localStorage
+        var msg         = '['+moment().format('d/m/Y HH:mm:ss').toString()+'] ' + message;
+        var logString   = localStorage.getItem('appLogs');
+        var _log        = ((logString == null || logString == "") ? [] : JSON.parse(logString));
+        _log.push(msg);
+        localStorage.setItem('appLogs', JSON.stringify(_log));
+        // Recargo el logger en la UI.
+        this.renderLog();
+        // Loggeo en la consola también.
+        console.log(msg);
+    },
+
+    clearLogs: function() {
+        localStorage.setItem('appLogs', "[]");
+        this.log("Reportes y seguimiento vaciados.");
+        this.renderLog();
+    }
+};
+
+/*******************************
+ * Websocket
+ *******************************/
+var ws = {
+    port: 4000,
+    server: null,
+    init: function() {
+        if(typeof cordova.plugins.wsserver !== 'undefined') {
+            this.server = cordova.plugins.wsserver;
+            logger.log("Websocket encontrado, iniciando servidor.");
+            this.startServer();
+            return true;
+        }else{
+            logger.log("No se pudo iniciar websocket. Falta dependencia.");
+            return false;
+        }
+    },
+
+    startServer: function() {
+        var _this = this;
+        this.server.start(this.port, {
+            'onFailure': function(addr, port, reason) {
+                logger.log("Servidor detenido. Razón: " + reason);
+            },
+            'onOpen': function(conn) {
+                logger.log("Conexión entrante desde "+conn.remoteAddr);
+            },
+            'onClose': function(conn, code, reason, wasClean) {
+                logger.log("Conexión perdida con "+conn.remoteAddr);
+            },
+            'onMessage':function(conn,msg) {
+                logger.log(msg);
+                this.sendContactos(conn);
+            }
+        },function onStart(addr, port){
+            logger.log("Servidor iniciado en "+addr+":"+port);
+        },function onDidNotStart(reason){
+            logger.log(reason);
+        });
+    },
+
+    sendContactos: function(conn) {
+        this.server.send(conn, "Hola perro");
+    }
+};
+
 app.init();
