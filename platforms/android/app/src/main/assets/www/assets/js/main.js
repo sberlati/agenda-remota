@@ -10,9 +10,12 @@ var app = {
         document.addEventListener('deviceready', function() {
             console.log(device.cordova);
            _this.initBackgroundMode();
-           // Inicio el websocket server
-           //ws.init();
-           webserver.start(function(a){console.log(a);},function(b){console.log(b);},4040);
+           // Inicio el webserver
+           ws.init();
+           // Obtengo la ip del dispositivo
+           networkinterface.getWiFiIPAddress(function(ipInfo) {
+               jQuery('.si-ip').text(ipInfo.ip+":"+ws.port);
+           },function(err){console.log(err);});
         }, false);
         $('.log-clear').click(function(e) {
             e.preventDefault();
@@ -116,6 +119,22 @@ var validations = {
 };
 
 /*******************************
+ * Consulta de agenda
+ *******************************/
+var agenda = {
+    getAll: function(callback) {
+        var options      = new ContactFindOptions();
+        options.filter   = ""; //we aren't filtering on anything
+        options.multiple = true;
+        var fields       = ["*"]; //search all the fields
+        navigator.contacts.find(fields, callback,
+        function(err) {
+            console.log(err);
+        }, options);
+    }
+};
+
+/*******************************
  * Log de eventos de la app.
  *******************************/
 var logger = {
@@ -159,19 +178,58 @@ var ws = {
 
     init: function() {
         if(typeof webserver !== 'undefined') {
-
+            webserver.start(function(){
+                ws.asignoEventos();
+            },
+            function(err){
+                // error
+                console.log(err);
+            },this.port);
         }
     },
 
-    /*route: function(path) {
-        switch(path) {
+    asignoEventos: function() {
+        /* Recibo un request */
+        webserver.onRequest(function(request) {
+            ws.route(request);
+        });
+    },
+
+    route: async function(request) {
+        switch(request.path) {
             case "/contactos/get/all":
+                agenda.getAll(function(response) {
+                    webserver.sendResponse(
+                        request.requestId,
+                        {
+                            status:200,
+                            body: JSON.stringify(response),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    );
+                });
+            break;
 
-                break;
-
-            case "/contactos/get/"
+            default:
+                webserver.sendResponse(
+                    request.requestId,
+                    {
+                        status: 404,
+                        body: "Path incorrecto.",
+                        headers: {
+                            'Content-Type': 'text/html'
+                        }
+                    }
+                );
+            break;
         }
-    }*/
+    },
+
+    sendResponse: function(body) {
+
+    }
 };
 
 app.init();

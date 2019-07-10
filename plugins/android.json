@@ -21,6 +21,9 @@
     },
     "cordova-plugin-webserver": {
       "PACKAGE_NAME": "com.sberlati.arem"
+    },
+    "cordova-plugin-networkinterface": {
+      "PACKAGE_NAME": "com.sberlati.arem"
     }
   },
   "dependent_plugins": {}

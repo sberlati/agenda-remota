@@ -8,7 +8,8 @@
       "cordova-plugin-contacts": {},
       "cordova-plugin-background-mode": {},
       "cordova-plugin-device": {},
-      "cordova-plugin-webserver": {}
+      "cordova-plugin-webserver": {},
+      "cordova-plugin-networkinterface": {}
     }
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "cordova-android": "^8.0.0",
     "cordova-plugin-background-mode": "git+https://github.com/sercatven/cordova-plugin-background-mode.git",
     "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-networkinterface": "^2.0.0",
     "cordova-plugin-webserver": "git+https://github.com/bykof/cordova-plugin-webserver.git"
   }
 }

@@ -10,8 +10,12 @@ var app = {
         document.addEventListener('deviceready', function() {
             console.log(device.cordova);
            _this.initBackgroundMode();
-           // Inicio el websocket server
+           // Inicio el webserver
            ws.init();
+           // Obtengo la ip del dispositivo
+           networkinterface.getWiFiIPAddress(function(ipInfo) {
+               jQuery('.si-ip').text(ipInfo.ip+":"+ws.port);
+           },function(err){console.log(err);});
         }, false);
         $('.log-clear').click(function(e) {
             e.preventDefault();
@@ -118,7 +122,16 @@ var validations = {
  * Consulta de agenda
  *******************************/
 var agenda = {
-
+    getAll: function(callback) {
+        var options      = new ContactFindOptions();
+        options.filter   = ""; //we aren't filtering on anything
+        options.multiple = true;
+        var fields       = ["*"]; //search all the fields
+        navigator.contacts.find(fields, callback,
+        function(err) {
+            console.log(err);
+        }, options);
+    }
 };
 
 /*******************************
@@ -166,7 +179,7 @@ var ws = {
     init: function() {
         if(typeof webserver !== 'undefined') {
             webserver.start(function(){
-                this.asignoEventos();
+                ws.asignoEventos();
             },
             function(err){
                 // error
@@ -178,14 +191,38 @@ var ws = {
     asignoEventos: function() {
         /* Recibo un request */
         webserver.onRequest(function(request) {
-            this.route(request);
+            ws.route(request);
         });
     },
 
     route: async function(request) {
         switch(request.path) {
             case "/contactos/get/all":
-                var contactos = await agenda.getAll();
+                agenda.getAll(function(response) {
+                    webserver.sendResponse(
+                        request.requestId,
+                        {
+                            status:200,
+                            body: JSON.stringify(response),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    );
+                });
+            break;
+
+            default:
+                webserver.sendResponse(
+                    request.requestId,
+                    {
+                        status: 404,
+                        body: "Path incorrecto.",
+                        headers: {
+                            'Content-Type': 'text/html'
+                        }
+                    }
+                );
             break;
         }
     },

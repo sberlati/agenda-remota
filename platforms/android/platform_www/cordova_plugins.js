@@ -101,6 +101,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "webserver"
       ]
+    },
+    {
+      "id": "cordova-plugin-networkinterface.networkinterface",
+      "file": "plugins/cordova-plugin-networkinterface/www/networkinterface.js",
+      "pluginId": "cordova-plugin-networkinterface",
+      "clobbers": [
+        "window.networkinterface"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -108,6 +116,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-contacts": "3.0.1",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-background-mode": "0.7.2",
-    "cordova-plugin-webserver": "1.1.0"
+    "cordova-plugin-webserver": "1.1.0",
+    "cordova-plugin-networkinterface": "2.0.0"
   };
 });
