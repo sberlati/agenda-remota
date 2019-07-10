@@ -10,9 +10,9 @@
   "cordova-plugin-device": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-device"
+      "id": "cordova-plugin-device@^2.0.3"
     },
-    "is_top_level": false,
+    "is_top_level": true,
     "variables": {}
   },
   "cordova-plugin-contacts": {
@@ -31,20 +31,20 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-websocket-server": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-websocket-server"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-add-swift-support": {
     "source": {
       "type": "registry",
       "id": "cordova-plugin-add-swift-support@2.0.1"
     },
     "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-webserver": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/bykof/cordova-plugin-webserver"
+    },
+    "is_top_level": true,
     "variables": {}
   }
 }

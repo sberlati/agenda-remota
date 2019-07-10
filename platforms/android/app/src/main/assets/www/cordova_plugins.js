@@ -95,11 +95,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-websocket-server.WebSocketServer",
-      "file": "plugins/cordova-plugin-websocket-server/www/wsserver.js",
-      "pluginId": "cordova-plugin-websocket-server",
+      "id": "cordova-plugin-webserver.webserver",
+      "file": "plugins/cordova-plugin-webserver/webserver.js",
+      "pluginId": "cordova-plugin-webserver",
       "clobbers": [
-        "cordova.plugins.wsserver"
+        "webserver"
       ]
     }
   ];
@@ -108,7 +108,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-contacts": "3.0.1",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-background-mode": "0.7.2",
-    "cordova-plugin-add-swift-support": "2.0.1",
-    "cordova-plugin-websocket-server": "1.5.0"
+    "cordova-plugin-webserver": "1.1.0"
   };
 });

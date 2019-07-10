@@ -8,13 +8,15 @@ var app = {
         var _this = this;
         logger.log("App. iniciada");
         document.addEventListener('deviceready', function() {
+            console.log(device.cordova);
            _this.initBackgroundMode();
            // Inicio el websocket server
-           ws.init();
+           //ws.init();
+           webserver.start(function(a){console.log(a);},function(b){console.log(b);},4040);
         }, false);
         $('.log-clear').click(function(e) {
             e.preventDefault();
-            _this.clearLogs();
+            logger.clearLogs();
         });
         $('.ipupdate-btn').click(function(e) {
             e.preventDefault();
@@ -32,7 +34,6 @@ var app = {
     },
 
     retrieve: function() {
-        var _this = this;
         var url = $('input[name="ip"]').val();
         $('.ipupdate-btn').attr('disabled','disabled');
         logger.log("Obteniendo contactos...");
@@ -56,7 +57,7 @@ var app = {
                     logger.log(posString+"[E:1] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
                     continue;
                 }else if(validations.esNumero(telefono) === false) {
-                    // El campo teléfono no tiene un
+                    // El campo teléfono no tiene números.
                     logger.log(posString+"[E:2] ERROR: " + cObject.nombre + " teléfono inválido ("+telefono+")");
                     continue;
                 }else if(telefono.substring(0,1) == "0") {
@@ -151,41 +152,26 @@ var logger = {
 };
 
 /*******************************
- * Websocket
+ * Webserver
  *******************************/
 var ws = {
     port: 4000,
-    server: null,
+
     init: function() {
-        if(typeof cordova.plugins.wsserver !== 'undefined') {
-            this.server = cordova.plugins.wsserver;
-            logger.log("Websocket encontrado, iniciando servidor.");
-            this.startServer();
-            return true;
-        }else{
-            logger.log("No se pudo iniciar websocket. Falta dependencia.");
-            return false;
+        if(typeof webserver !== 'undefined') {
+
         }
     },
 
-    startServer: function() {
-        var _this = this;
-        this.server.start(this.port, {
-            'onFailure': function(addr, port, reason) {
-                logger.log("Servidor detenido. Razón: " + reason);
-            },
-            'onOpen': function(conn) {
-                logger.log("Conexión entrante desde "+conn.remoteAddr);
-            },
-            'onClose': function(conn, code, reason, wasClean) {
-                logger.log("Conexión perdida con "+conn.remoteAddr);
-            }
-        },function onStart(addr, port){
-            logger.log("Servidor iniciado en "+addr+":"+port);
-        },function onDidNotStart(reason){
-            logger.log(reason);
-        });
-    }
+    /*route: function(path) {
+        switch(path) {
+            case "/contactos/get/all":
+
+                break;
+
+            case "/contactos/get/"
+        }
+    }*/
 };
 
 app.init();

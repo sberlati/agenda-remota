@@ -31,10 +31,6 @@
             {
               "xml": "<preference name=\"KeepRunning\" value=\"true\" />",
               "count": 1
-            },
-            {
-              "xml": "<feature name=\"WebSocketServer\"><param name=\"android-package\" value=\"net.becvert.cordova.WebSocketServerPlugin\" /></feature>",
-              "count": 1
             }
           ]
         }
@@ -73,13 +69,14 @@
               "count": 1
             }
           ],
-          "/manifest": [
+          "/manifest": []
+        }
+      },
+      "config.xml": {
+        "parents": {
+          "/*": [
             {
-              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+              "xml": "<feature name=\"Webserver\"><param name=\"android-package\" value=\"org.apache.cordova.plugin.Webserver\" /></feature>",
               "count": 1
             }
           ]
@@ -100,10 +97,7 @@
     "cordova-plugin-background-mode": {
       "PACKAGE_NAME": "com.sberlati.arem"
     },
-    "cordova-plugin-add-swift-support": {
-      "PACKAGE_NAME": "com.sberlati.arem"
-    },
-    "cordova-plugin-websocket-server": {
+    "cordova-plugin-webserver": {
       "PACKAGE_NAME": "com.sberlati.arem"
     }
   },
@@ -204,11 +198,11 @@
       ]
     },
     {
-      "id": "cordova-plugin-websocket-server.WebSocketServer",
-      "file": "plugins/cordova-plugin-websocket-server/www/wsserver.js",
-      "pluginId": "cordova-plugin-websocket-server",
+      "id": "cordova-plugin-webserver.webserver",
+      "file": "plugins/cordova-plugin-webserver/webserver.js",
+      "pluginId": "cordova-plugin-webserver",
       "clobbers": [
-        "cordova.plugins.wsserver"
+        "webserver"
       ]
     }
   ],
@@ -217,7 +211,6 @@
     "cordova-plugin-contacts": "3.0.1",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-background-mode": "0.7.2",
-    "cordova-plugin-add-swift-support": "2.0.1",
-    "cordova-plugin-websocket-server": "1.5.0"
+    "cordova-plugin-webserver": "1.1.0"
   }
 }
