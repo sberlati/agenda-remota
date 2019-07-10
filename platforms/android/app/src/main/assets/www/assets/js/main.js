@@ -1,4 +1,6 @@
 var app = {
+    version: 'v1.0.0 beta',
+
     init: function() {
         this.asignoEventos();
         logger.renderLog();
@@ -7,6 +9,8 @@ var app = {
     asignoEventos: function() {
         var _this = this;
         logger.log("App. iniciada");
+        logger.log(this.version);
+        jQuery('.app-version').text(app.version);
         document.addEventListener('deviceready', function() {
             console.log(device.cordova);
            _this.initBackgroundMode();

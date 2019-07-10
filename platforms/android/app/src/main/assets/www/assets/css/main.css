@@ -87,3 +87,9 @@ label {
     text-align: center;
     font-size: 2rem;
 }
+
+.app-version {
+    font-size: 13px;
+    font-weight: 300;
+    text-align: right;
+}
