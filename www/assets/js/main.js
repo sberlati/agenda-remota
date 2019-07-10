@@ -115,6 +115,13 @@ var validations = {
 };
 
 /*******************************
+ * Consulta de agenda
+ *******************************/
+var agenda = {
+
+};
+
+/*******************************
  * Log de eventos de la app.
  *******************************/
 var logger = {
@@ -158,24 +165,34 @@ var ws = {
 
     init: function() {
         if(typeof webserver !== 'undefined') {
-            webserver.start(function(a){
-                console.log(a);
+            webserver.start(function(){
+                this.asignoEventos();
             },
-            function(b){
-                console.log(b);
+            function(err){
+                // error
+                console.log(err);
             },this.port);
         }
     },
 
-    /*route: function(path) {
-        switch(path) {
+    asignoEventos: function() {
+        /* Recibo un request */
+        webserver.onRequest(function(request) {
+            this.route(request);
+        });
+    },
+
+    route: async function(request) {
+        switch(request.path) {
             case "/contactos/get/all":
-
-                break;
-
-            case "/contactos/get/"
+                var contactos = await agenda.getAll();
+            break;
         }
-    }*/
+    },
+
+    sendResponse: function(body) {
+
+    }
 };
 
 app.init();

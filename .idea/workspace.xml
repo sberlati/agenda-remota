@@ -2,47 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d84e4ed9-09ed-4631-99b6-a02f9fdb61ed" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change beforePath="$PROJECT_DIR$/platforms/android/CordovaLib/AndroidManifest.xml" afterPath="$PROJECT_DIR$/platforms/android/CordovaLib/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/android.json" afterPath="$PROJECT_DIR$/platforms/android/android.json" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/build.gradle" afterPath="$PROJECT_DIR$/platforms/android/app/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/assets/js/main.js" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/assets/js/main.js" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/cordova_plugins.js" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/assets/www/cordova_plugins.js" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/java/net/becvert/cordova/WebSocketServerImpl.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/java/net/becvert/cordova/WebSocketServerPlugin.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/app/src/main/res/xml/config.xml" afterPath="$PROJECT_DIR$/platforms/android/app/src/main/res/xml/config.xml" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/cordova-plugin-websocket-server/arem-websocket-server.gradle" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/platform_www/cordova_plugins.js" afterPath="$PROJECT_DIR$/platforms/android/platform_www/cordova_plugins.js" />
-      <change beforePath="$PROJECT_DIR$/platforms/android/project.properties" afterPath="$PROJECT_DIR$/platforms/android/project.properties" />
-      <change beforePath="$PROJECT_DIR$/plugins/android.json" afterPath="$PROJECT_DIR$/plugins/android.json" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/.eslintrc.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/CHANGELOG.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/LICENSE" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/README.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/index.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/package.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/plugin.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-add-swift-support/src/add-swift-support.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/CHANGELOG.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/LICENSE" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/README.md" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/package.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/plugin.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/android/net/becvert/cordova/WebSocketServerImpl.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/android/net/becvert/cordova/WebSocketServerPlugin.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/android/websocket-server.gradle" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/ios/Interface.swift" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/ios/WebSocketServer-Bridging-Header.h" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/ios/WebSocketServer.swift" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/ios/vendor/headers/PSWebSocket.h" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/ios/vendor/headers/PSWebSocketServer.h" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/ios/vendor/headers/PSWebSocketTypes.h" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/src/ios/vendor/libPocketSocket.a" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/cordova-plugin-websocket-server/www/wsserver.js" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/plugins/fetch.json" afterPath="$PROJECT_DIR$/plugins/fetch.json" />
       <change beforePath="$PROJECT_DIR$/www/assets/js/main.js" afterPath="$PROJECT_DIR$/www/assets/js/main.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,11 +24,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/assets/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="582">
-              <caret line="161" column="31" lean-forward="true" selection-start-line="161" selection-start-column="31" selection-end-line="161" selection-end-column="31" />
+            <state relative-caret-position="803">
+              <caret line="193" column="0" lean-forward="false" selection-start-line="193" selection-start-column="0" selection-end-line="193" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/platforms/android/CordovaLib/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="39" lean-forward="false" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -120,8 +90,8 @@
         <option value="$PROJECT_DIR$/www/assets/js/moment.js" />
         <option value="$PROJECT_DIR$/www/assets/css/main.css" />
         <option value="$PROJECT_DIR$/www/index.html" />
-        <option value="$PROJECT_DIR$/platforms/android/CordovaLib/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/www/assets/js/main.js" />
+        <option value="$PROJECT_DIR$/platforms/android/CordovaLib/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -175,6 +145,17 @@
             <path>
               <item name="agenda-remota" type="b2602c69:ProjectViewProjectNode" />
               <item name="agenda-remota" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agenda-remota" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agenda-remota" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="node_modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agenda-remota" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agenda-remota" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="node_modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="cordova-plugin-webserver" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="agenda-remota" type="b2602c69:ProjectViewProjectNode" />
@@ -237,12 +218,12 @@
       <workItem from="1562291307956" duration="1890000" />
       <workItem from="1562330836807" duration="4974000" />
       <workItem from="1562625380857" duration="2751000" />
-      <workItem from="1562765256261" duration="2878000" />
+      <workItem from="1562765256261" duration="4837000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47543000" />
+    <option name="totallyTimeSpent" value="49502000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -283,14 +264,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/assets/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -628,14 +601,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/platforms/android/CordovaLib/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/cordova-plugin-contacts/types/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -652,10 +617,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/cordova-plugin-webserver/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/assets/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="582">
-          <caret line="161" column="31" lean-forward="true" selection-start-line="161" selection-start-column="31" selection-end-line="161" selection-end-column="31" />
+        <state relative-caret-position="803">
+          <caret line="193" column="0" lean-forward="false" selection-start-line="193" selection-start-column="0" selection-end-line="193" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/platforms/android/CordovaLib/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="39" lean-forward="false" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
           <folding />
         </state>
       </provider>
